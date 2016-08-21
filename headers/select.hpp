@@ -8,13 +8,19 @@
 # include <cstring>
 
 # include <unistd.h>
+#ifdef BD_WINDOWS
+#include <winsock2.h>
+#else
 # include <sys/select.h>
+#endif
 # include <errno.h>
 # include <sys/time.h>
 # include <sys/types.h>
 
 # include "exception.hpp"
+#ifndef BD_WINDOWS
 # include <sys/select.h>
+#endif
 
 /**
  * @file select.hpp

@@ -75,7 +75,11 @@ namespace libsocket
 
 	memset(buf,0,len);
 
+#ifdef BD_WINDOWS
+	if ( -1 == (bytes = recv(sfd,(char*)buf,len,flags)) )
+#else
 	if ( -1 == (bytes = recv(sfd,buf,len,flags)) )
+#endif
 	    throw socket_exception(__FILE__,__LINE__,"dgram_client_socket::rcv() - recv() failed!");
 
 	return bytes;
@@ -136,7 +140,11 @@ namespace libsocket
 	if ( connected != true )
 	    throw socket_exception(__FILE__,__LINE__,"dgram_client_socket::snd() - Socket is not connected!", false);
 
+#ifdef BD_WINDOWS
+	if ( -1 == (bytes = send(sfd,(char*)buf,len,flags)) )
+#else
 	if ( -1 == (bytes = send(sfd,buf,len,flags)) )
+#endif
 	    throw socket_exception(__FILE__,__LINE__,"dgram_client_socket::snd() - send() failed!");
 
 	return bytes;

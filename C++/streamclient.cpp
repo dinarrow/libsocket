@@ -33,10 +33,12 @@
 # include <unistd.h>
 # include <string.h>
 # include <memory>
+#ifndef BD_WINDOWS
 // Inclusion here prevents further inclusion from headers/socket.hpp
 namespace BERKELEY {
 # include <sys/socket.h>
 } // Against conflicts (shutdown(2)...)
+#endif
 
 # include <conf.h>
 # include <libinetsocket.h>
@@ -78,6 +80,7 @@ namespace libsocket
 
 	memset(buf,0,len);
 
+#ifndef BD_WINDOWS
 	if ( -1 == (recvd = BERKELEY::recv(sfd,buf,len,flags)) )
 	{
 	    if ( is_nonblocking && errno == EWOULDBLOCK )
@@ -85,6 +88,9 @@ namespace libsocket
 	    else
 		throw socket_exception(__FILE__,__LINE__,"stream_client_socket::rcv() - Error while reading!");
 	}
+#else
+		throw socket_exception(__FILE__,__LINE__,"stream_client_socket::rcv() - Windows IMP Required");
+#endif
 
 	return recvd;
     }
@@ -218,6 +224,7 @@ namespace libsocket
 	if ( buf == NULL || len == 0 )
 	    throw socket_exception(__FILE__,__LINE__,"stream_client_socket::snd() - Buffer or length is null!",false);
 
+#ifndef BD_WINDOWS
 	if ( -1 == (snd_bytes = BERKELEY::send(sfd,buf,len,flags)) )
 	{
 	    if ( is_nonblocking && errno == EWOULDBLOCK )
@@ -225,6 +232,9 @@ namespace libsocket
 	    else
 		throw socket_exception(__FILE__,__LINE__,"stream_client_socket::snd() - Error while sending");
 	}
+#else
+		throw socket_exception(__FILE__,__LINE__,"stream_client_socket::snd() - WINDOWS IMP REQUIRED");
+#endif
 
 	return snd_bytes;
     }
@@ -247,11 +257,16 @@ namespace libsocket
 	    return;
 	if ( (method & LIBSOCKET_WRITE) && (shut_wr == true) )
 	    return;
-
+#ifdef BD_WINDOWS
+#define SHUT_RD 0
+#define SHUT_WR 1
+#define SHUT_RDWR 2
+#else
 #if LIBSOCKET_LINUX || BD_ANDROID
         using BERKELEY::SHUT_RDWR;
         using BERKELEY::SHUT_RD;
         using BERKELEY::SHUT_WR;
+#endif
 #endif
 
 	if ( method == (LIBSOCKET_READ|LIBSOCKET_WRITE) )
@@ -262,11 +277,14 @@ namespace libsocket
 	    u_method = SHUT_WR;
 	else // With no valid combination
 	    return;
-
+#ifndef BD_WINDOWS
 	if ( 0 > BERKELEY::shutdown(sfd,u_method)) // It's equal whether we use this or its brother from libunixsocket
 	{
 	    throw socket_exception(__FILE__,__LINE__,"stream_client_socket::shutdown() - Could not shutdown socket");
 	}
+#else
+	    throw socket_exception(__FILE__,__LINE__,"stream_client_socket::shutdown() - WINDOW IMP REQUIRED");
+#endif
 
 	if ( method & LIBSOCKET_READ )
 	    shut_rd = true;

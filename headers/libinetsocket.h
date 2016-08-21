@@ -29,7 +29,11 @@
 
 // Headers (e.g. for flags)
 # include <sys/types.h>
+#ifdef BD_WINDOWS
+#include <winsock2.h>
+#else
 # include <sys/socket.h>
+#endif
 
 // Macro definitions
 

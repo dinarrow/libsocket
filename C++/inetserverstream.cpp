@@ -43,6 +43,10 @@
 # include <exception.hpp>
 # include <inetserverstream.hpp>
 
+#ifdef BD_WINDOWS
+#define O_NONBLOCK 0x0004
+#endif
+
 #include <fcntl.h>
 #ifndef SOCK_NONBLOCK
 # define SOCK_NONBLOCK O_NONBLOCK

@@ -3,7 +3,11 @@
 # include <string.h>
 
 # include <unistd.h>
+#ifdef BD_WINDOWS
+#include <winsock2.h>
+#else
 # include <sys/socket.h>
+#endif
 # include <sys/types.h>
 # include <stdio.h>
 /*

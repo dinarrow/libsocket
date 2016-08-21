@@ -3,7 +3,11 @@
 # include <cstring>
 
 # include <unistd.h>
+#ifdef BD_WINDOWS
+#include <winsock2.h>
+#else
 # include <sys/socket.h>
+#endif
 # include <sys/types.h>
 # include <stdio.h>
 
@@ -46,6 +50,9 @@
 # include <exception.hpp>
 # include <inetclientdgram.hpp>
 
+#ifdef BD_WINDOWS
+#define O_NONBLOCK 0x0004
+#endif
 #include <fcntl.h>
 #ifndef SOCK_NONBLOCK
 # define SOCK_NONBLOCK O_NONBLOCK

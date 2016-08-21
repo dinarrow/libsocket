@@ -2,46 +2,20 @@
 # define _GNU_SOURCE
 # endif
 
-//# include "conf.h"
-#define LIBSOCKET_VERSION 2.4
-#ifdef BD_ANDROID
-#define LIBSOCKET_LINUX 0
-#else
-#ifdef BD_WINDOWS
-#define LIBSOCKET_LINUX 0
-#define SHUT_RD 0
-#define SHUT_WR 1
-#else
-#define LIBSOCKET_LINUX 1
-#endif
-#endif
-#define LIBSOCKET_FREEBSD 0
-#define LIBSOCKET_SUNOS 0
-
+# include <conf.h>
 
 # include <stdlib.h>
 # include <stdio.h>
-
-#ifdef BD_WINDOWS
-#include <winsock2.h>
-#include <ws2tcpip.h>
-#else
-#include <sys/socket.h>
-#endif
-
+# include <sys/socket.h>
 # include <sys/types.h>
 # include <unistd.h> // read()/write()
 # include <stdint.h>
-#ifndef BD_WINDOWS
 # include <netdb.h> // getaddrinfo()
-#endif
 # include <string.h>
 # include <errno.h>
-#ifndef BD_WINDOWS
 # include <sys/ioctl.h>
 # include <net/if.h>
 # include <netinet/in.h> // e.g. struct sockaddr_in on OpenBSD
-#endif
 
 /**
  * @file    libinetsocket.c
@@ -919,7 +893,7 @@ int get_address_family(const char* hostname)
  * @retval >=0 A valid file descriptor.
  *
  */
-# if LIBSOCKET_LINUX
+# ifdef LIBSOCKET_LINUX
 int create_multicast_socket(const char* group, const char* port, const char* if_name)
 {
     int sfd, return_value;

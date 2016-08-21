@@ -3,7 +3,11 @@
 
 # include <string>
 # include <sys/types.h>
+#ifdef BD_WINDOWS
+#include <winsock2.h>
+#else
 # include <sys/socket.h>
+#endif
 
 # include "inetdgram.hpp"
 # include "dgramclient.hpp"
