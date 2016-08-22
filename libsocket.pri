@@ -1,4 +1,4 @@
-INCLUDEPATH += $$PWD/headers
+INCLUDEPATH += $$PWD/headers $$PWD
 DEPENDPATH += $$PWD/C++ $$PWD/C/inet
 
 
