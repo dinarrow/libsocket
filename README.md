@@ -1,5 +1,11 @@
 # README for libsocket
 
+# DO NOT USE THIS BRANCH 
+
+Currently this Branch is being converted for both Android and Windows and use with other Source Code. 
+
+While it may be compiled successfully some conflicting code has been deliberately disabled until it can be reviewed and modified for it respective platform.
+
 [![Travis Build Status](https://api.travis-ci.org/dermesser/libsocket.png)](https://travis-ci.org/dermesser/libsocket/)
 
 (Pre-built documentation for libsocket developers can be found on [my
