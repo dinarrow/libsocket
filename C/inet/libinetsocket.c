@@ -4,7 +4,7 @@
 
 //# include "conf.h"
 #define LIBSOCKET_VERSION 2.4
-#ifdef BD_ANDROID
+#if defined(BD_ANDROID) || defined(BD_MAC)
 #define LIBSOCKET_LINUX 0
 #else
 #ifdef BD_WINDOWS
