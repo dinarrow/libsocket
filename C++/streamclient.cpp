@@ -257,7 +257,7 @@ namespace libsocket
 	    return;
 	if ( (method & LIBSOCKET_WRITE) && (shut_wr == true) )
 	    return;
-#if defined(BD_ANDROID) || defined(BD_MAC)
+#if defined(BD_WINDOWS) || defined(BD_MAC)
 #define SHUT_RD 0
 #define SHUT_WR 1
 #define SHUT_RDWR 2
